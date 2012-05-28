@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import model.Model;
 
 import view.Frame;
+import view.ViewConsole;
+import view.ViewWindow;
 
 public class Run {
 
@@ -49,10 +51,21 @@ public class Run {
         System.out.println("Количество мин:");
         int minesNumber = sc.nextInt();
 
-        // System.out.println("Тип отображения: 1 - Консоль; 2 - Окно");
-        // int view = sc.nextInt();
+        System.out.println("Тип отображения: 1 - Консоль; 2 - Окно");
+        int view = sc.nextInt();
 
         Model m = new Model(height, width, minesNumber);
+        
+        switch (view) {
+        case 1:
+            m.setView(new ViewConsole(height,width,minesNumber));
+            break;
+
+        case 2:
+            m.setView(new ViewWindow(height,width,minesNumber));
+            break;
+        }
+        
 
         while (m.isOver() == 0) {
             System.out
@@ -66,7 +79,7 @@ public class Run {
                 System.out.println("y:");
                 y = sc.nextInt();
                 m.openCell(x - 1, y - 1);
-                m.consOut();
+//                m.consOut();
                 break;
 
             case 2:
@@ -75,7 +88,7 @@ public class Run {
                 System.out.println("y:");
                 y = sc.nextInt();
                 m.setFlag(x - 1, y - 1);
-                m.consOut();
+//                m.consOut();
                 break;
 
             case 3:
@@ -84,7 +97,7 @@ public class Run {
                 System.out.println("y:");
                 y = sc.nextInt();
                 m.setQuestion(x - 1, y - 1);
-                m.consOut();
+//                m.consOut();
                 break;
 
             default:

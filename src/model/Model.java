@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import view.ViewInterface;
+
 public class Model {
     private final int height;
     private final int width;
@@ -12,6 +14,8 @@ public class Model {
 
     private int isOver = 0;
     private boolean fieldGenerated = false;
+    
+    private ViewInterface view;
 
     private Cell[][] field;
 
@@ -106,67 +110,78 @@ public class Model {
         return minesNumber;
     }
 
-    public void openCell(int x, int y) {
-        if (fieldGenerated) {
+    private void recursiveOpen(int x, int y) {
+        Cell c = field[x][y];
+        if (!c.isFlagged()) {
 
-            Cell c = field[x][y];
-            if (!c.isFlagged()) {
+            if (c.isMined() == true) {
+                explode();
+            } else {
+                c.setOpened(true);
+                if (c.getMinesAround() == 0) {
 
-                if (c.isMined() == true) {
-                    explode();
-                } else {
-                    c.setOpened(true);
-                    if (c.getMinesAround() == 0) {
-
-                        // ------------мб можно выпилить
-                        int xInitial = c.getX();
-                        int yInitial = c.getY();
-                        for (int lengthwise = -1; lengthwise <= 1; lengthwise++) {
-                            for (int crosswise = -1; crosswise <= 1; crosswise++) {
-                                int xNeighbour = xInitial + crosswise;
-                                int yNeighbour = yInitial + lengthwise;
-                                if (xNeighbour >= 0 && xNeighbour < height
-                                        && yNeighbour >= 0
-                                        && yNeighbour < width) {
-                                    if (!field[xNeighbour][yNeighbour]
-                                            .isOpened())
-                                        openCell(xNeighbour, yNeighbour);
-                                }
+                    // ------------мб можно выпилить
+                    int xInitial = c.getX();
+                    int yInitial = c.getY();
+                    for (int lengthwise = -1; lengthwise <= 1; lengthwise++) {
+                        for (int crosswise = -1; crosswise <= 1; crosswise++) {
+                            int xNeighbour = xInitial + crosswise;
+                            int yNeighbour = yInitial + lengthwise;
+                            if (xNeighbour >= 0 && xNeighbour < height
+                                    && yNeighbour >= 0
+                                    && yNeighbour < width) {
+                                if (!field[xNeighbour][yNeighbour]
+                                        .isOpened())
+                                    recursiveOpen(xNeighbour, yNeighbour);
                             }
                         }
-                        // ---------------
                     }
+                    // ---------------
                 }
-
-                // проверка на конец игры. если количество закрытых = количеству
-                // мин
-                int closedCellsNumber = 0;
-                for (int i = 0; i < height; i++) {
-                    for (int j = 0; j < width; j++) {
-                        if (field[i][j].isOpened() == false)
-                            closedCellsNumber++;
-                    }
-                }
-                if (closedCellsNumber == minesNumber){
-                    isOver = 1;
-                    System.out.println("You win!");
-                }
-                   
-                // ----------------------------------------------------------------
-
             }
 
+            // проверка на конец игры. если количество закрытых = количеству
+            // мин
+            int closedCellsNumber = 0;
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    if (field[i][j].isOpened() == false)
+                        closedCellsNumber++;
+                }
+            }
+            if (closedCellsNumber == minesNumber){
+                isOver = 1;
+                System.out.println("You win!");
+            }
+            // ----------------------------------------------------------------
+
+        }
+
+
+ 
+    
+    
+    /*
+     * // -------------------- test for (int i = 0; i < height; i++) { for
+     * (int j = 0; j < width; j++) { if (field[i][j].isOpened()) {
+     * System.out.print(field[i][j].getMinesAround() + " "); } else {
+     * System.out.print("# "); } } System.out.println(); }
+     * System.out.println(); // --------------------
+     */
+
+    }
+    
+    public void openCell(int x, int y) {
+        if (fieldGenerated) {
+            recursiveOpen(x, y);
+            
+            
         } else {
             generateField(x, y);
-            openCell(x, y);
+            recursiveOpen(x, y);
         }
-        /*
-         * // -------------------- test for (int i = 0; i < height; i++) { for
-         * (int j = 0; j < width; j++) { if (field[i][j].isOpened()) {
-         * System.out.print(field[i][j].getMinesAround() + " "); } else {
-         * System.out.print("# "); } } System.out.println(); }
-         * System.out.println(); // --------------------
-         */
+        view.draw(field);
+            
     }
 
     private void explode() {
@@ -181,6 +196,7 @@ public class Model {
         }
 
         isOver = -1;
+//        view.draw(field);
 
     }
 
@@ -195,6 +211,7 @@ public class Model {
             if (c.isQuestioned())
                 c.setQuestioned(false);
         }
+        view.draw(field);
     }
 
     public void setQuestion(int x, int y) {
@@ -209,8 +226,10 @@ public class Model {
                 c.setFlagged(false);
             }
         }
+        view.draw(field);
     }
 
+    // надо ли вообще?
     public int isOver() {
         return isOver;
     }
@@ -238,6 +257,10 @@ public class Model {
             System.out.println();
         }
         System.out.println();
+    }
+
+    public void setView(ViewInterface view) {
+        this.view = view;
     }
 
 }
