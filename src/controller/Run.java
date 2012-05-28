@@ -54,7 +54,7 @@ public class Run {
 
         Model m = new Model(height, width, minesNumber);
 
-        while (!m.isOver()) {
+        while (m.isOver() == 0) {
             System.out
                     .println("1 - Открыть; 2 - Поставить флаг; 3 - Поставить вопрос");
             int x;

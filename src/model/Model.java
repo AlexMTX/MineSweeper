@@ -10,7 +10,7 @@ public class Model {
     private final int width;
     private final int minesNumber;
 
-    private boolean isOver = false;
+    private int isOver = 0;
     private boolean fieldGenerated = false;
 
     private Cell[][] field;
@@ -148,7 +148,7 @@ public class Model {
                     }
                 }
                 if (closedCellsNumber == minesNumber){
-                    isOver = true;
+                    isOver = 1;
                     System.out.println("You win!");
                 }
                    
@@ -180,7 +180,7 @@ public class Model {
             }
         }
 
-        isOver = true;
+        isOver = -1;
 
     }
 
@@ -211,7 +211,7 @@ public class Model {
         }
     }
 
-    public boolean isOver() {
+    public int isOver() {
         return isOver;
     }
 
