@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import view.ViewInterface;
+//import view.ViewInterface;
 
 public class Model {
     private final int height;
@@ -15,7 +15,7 @@ public class Model {
     private int isOver = 0;
     private boolean fieldGenerated = false;
     
-    private ViewInterface view;
+//    private ViewInterface view;
 
     private Cell[][] field;
 
@@ -78,13 +78,6 @@ public class Model {
 
         fieldGenerated = true;
 
-        /*
-         * // -------------------- test for (int i = 0; i < height; i++) { for
-         * (int j = 0; j < width; j++) { if (field[i][j].isMined()) {
-         * System.out.print("* "); } else {
-         * System.out.print(field[i][j].getMinesAround() + " "); } }
-         * System.out.println(); } System.out.println(); // --------------------
-         */
     }
 
     private int countMinesAround(Cell c) {
@@ -157,18 +150,6 @@ public class Model {
 
         }
 
-
- 
-    
-    
-    /*
-     * // -------------------- test for (int i = 0; i < height; i++) { for
-     * (int j = 0; j < width; j++) { if (field[i][j].isOpened()) {
-     * System.out.print(field[i][j].getMinesAround() + " "); } else {
-     * System.out.print("# "); } } System.out.println(); }
-     * System.out.println(); // --------------------
-     */
-
     }
     
     public void openCell(int x, int y) {
@@ -180,7 +161,7 @@ public class Model {
             generateField(x, y);
             recursiveOpen(x, y);
         }
-        view.draw(field);
+//        view.draw(field);
             
     }
 
@@ -211,7 +192,7 @@ public class Model {
             if (c.isQuestioned())
                 c.setQuestioned(false);
         }
-        view.draw(field);
+//        view.draw(field);
     }
 
     public void setQuestion(int x, int y) {
@@ -226,7 +207,7 @@ public class Model {
                 c.setFlagged(false);
             }
         }
-        view.draw(field);
+//        view.draw(field);
     }
 
     // надо ли вообще?
@@ -259,8 +240,12 @@ public class Model {
         System.out.println();
     }
 
-    public void setView(ViewInterface view) {
-        this.view = view;
+//    public void setView(ViewInterface view) {
+//        this.view = view;
+//    }
+
+    public Cell[][] getField() {
+        return field;
     }
 
 }
