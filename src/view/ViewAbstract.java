@@ -1,5 +1,7 @@
 package view;
 
+import controller.Observer;
+
 public abstract class ViewAbstract implements ViewInterface {
 
     protected int width;
@@ -12,6 +14,28 @@ public abstract class ViewAbstract implements ViewInterface {
         this.minesNumber = minesNumber;
     }
 
+    
+    protected Observer observer;
+
+    @Override
+    public void registerObserver(Observer observer) {
+        this.observer = observer;
+    }
+
+    protected int x;
+    protected int y;
+    protected int button;
+    
+    @Override
+    public void notifyObserver() {
+        observer.update(x, y, button);
+        
+    }
+
+    
+    
+    
+    
     // @Override
     // public void setWidth(int width) {
     // this.width=width;

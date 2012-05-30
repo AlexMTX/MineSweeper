@@ -1,5 +1,7 @@
 package controller;
 
+import view.ViewAbstract;
+
 //import java.util.Scanner;
 //
 //import javax.swing.JFrame;
@@ -33,6 +35,7 @@ public class Run {
 
         
         //контроллер
+//        ViewAbstract v=null;
         Controller controller = new Controller();
         controller.newGame();
         //---------------------------------------

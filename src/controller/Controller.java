@@ -9,8 +9,22 @@ import view.ViewWindow;
 
 import model.Model;
 
-public class Controller {
+public class Controller implements Observer {
+    
+//    private int x;
+//    private int y;
+//    private int button;
+    
+    private Model m;
+    private ViewAbstract v;
 
+//    public Controller(){
+//        this.v=v;
+//        v.registerObserver(this);
+//    }
+//    
+//    private register(){
+    
     public void newGame() {
         Scanner sc = new Scanner(System.in);
 
@@ -26,22 +40,21 @@ public class Controller {
         System.out.println("Тип отображения: 1 - Консоль; 2 - Окно");
         int viewType = sc.nextInt();
 
-        Model m = new Model(height, width, minesNumber);
-        ViewInterface v = null;
-        
+        m = new Model(height, width, minesNumber);
+
         switch (viewType) {
         case 1:
-            v = new ViewConsole(height,width,minesNumber);
-//            m.setView(new ViewConsole(height,width,minesNumber));
+            v = new ViewConsole(height, width, minesNumber);
             break;
 
         case 2:
             v = new ViewWindow(height, width, minesNumber);
-//            m.setView(new ViewWindow(height,width,minesNumber));
             break;
         }
         
+        v.registerObserver(this);
 
+        /*
         while (m.isOver() == 0) {
             System.out
                     .println("1 - Открыть; 2 - Поставить флаг; 3 - Поставить вопрос");
@@ -79,7 +92,43 @@ public class Controller {
                 break;
             }
         }
+        */
+
+    }
+
+    //View update'ид последнюю нажатую кнопку, координаты.
+    //запускает обработку модели?
+    @Override
+    public void update(int x, int y, int button) {
+//        this.x = x;
+//        this.y = y;
+//        this.button = button;
         
+        switch (button) {
+        case 1:
+            m.openCell(x, y);
+            break;
+        case 2:
+            //средняя кнопка
+            break;
+            
+        case 3: 
+            if (m.getField()[x][y].isFlagged()) {
+                m.setQuestion(x, y);
+            }
+            if (m.getField()[x][y].isQuestioned()) {
+                m.setQuestion(x, y);
+            }
+            if (!m.getField()[x][y].isFlagged()&&!m.getField()[x][y].isQuestioned()) {
+                m.setFlag(x, y);
+            }
+            break;
+        default:
+            break;
+        }
+        
+        v.draw(m.getField());
+
     }
 
 }
