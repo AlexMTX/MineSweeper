@@ -1,4 +1,4 @@
-package controller;
+package service;
 
 import view.ViewAbstract;
 
@@ -36,8 +36,8 @@ public class Run {
         
         //контроллер
 //        ViewAbstract v=null;
-        Controller controller = new Controller();
-        controller.newGame();
+        Service service = new Service();
+        service.newGame();
         //---------------------------------------
         
         

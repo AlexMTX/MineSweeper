@@ -8,12 +8,15 @@ public class ViewConsole extends ViewAbstract {
 
     public ViewConsole(int height, int width, int minesNumber) {
         super(height, width, minesNumber);
-        // TODO Auto-generated constructor stub
 
-        /*
+    }
+    
+    @Override
+    public void initialise() {
+        
         Scanner sc = new Scanner(System.in);
         while (true) {
-            System.out.println("1 - Открыть; 2 - Поставить флаг; 3 - Поставить вопрос");
+            System.out.println("1 - Открыть; 2 - Отметить:");
             switch (sc.nextInt()) {
             case 1:
                 System.out.println("x:");
@@ -27,9 +30,9 @@ public class ViewConsole extends ViewAbstract {
 
             case 2:
                 System.out.println("x:");
-                x = sc.nextInt();
+                x = sc.nextInt()-1;
                 System.out.println("y:");
-                y = sc.nextInt();
+                y = sc.nextInt()-1;
                 button=3;
 //                m.setFlag(x - 1, y - 1);
 //                v.draw(m.getField());
@@ -37,9 +40,9 @@ public class ViewConsole extends ViewAbstract {
 
             case 3:
                 System.out.println("x:");
-                x = sc.nextInt();
+                x = sc.nextInt()-1;
                 System.out.println("y:");
-                y = sc.nextInt();
+                y = sc.nextInt()-1;
                 button=3;
 //                m.setQuestion(x - 1, y - 1);
 //                v.draw(m.getField());
@@ -50,11 +53,9 @@ public class ViewConsole extends ViewAbstract {
             }
             notifyObserver();
         }
-        */
-
+        
     }
 
-    // notifyObserver();?
 
     @Override
     public void draw(Cell[][] field) {
@@ -110,5 +111,9 @@ public class ViewConsole extends ViewAbstract {
         System.out.println();
 
     }
+
+
+
+
 
 }

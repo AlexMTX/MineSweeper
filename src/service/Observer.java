@@ -1,4 +1,4 @@
-package controller;
+package service;
 
 public interface Observer {
     //контроллер должен знать последнюю нажатую кнопку и координаты. Наблюдает View.

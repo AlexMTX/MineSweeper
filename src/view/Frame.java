@@ -23,7 +23,7 @@ public class Frame extends JFrame {
         setLayout(new BorderLayout());
         
         JButton button = new JButton("Новая игра");
-        button.setBackground(Color.BLUE);
+        button.setBackground(Color.WHITE);
         button.setRolloverEnabled(false);
 //        button.addActionListener(new ActionListener() {
 //            @Override
@@ -33,9 +33,9 @@ public class Frame extends JFrame {
 //        });
         
         button.addMouseListener(new ButtonMouseListener(button));
+        add(button, BorderLayout.SOUTH);
         
         
-        add(button, BorderLayout.NORTH);
         
 //        JPanel panel = createBorard();
 //        add(panel, BorderLayout.CENTER);

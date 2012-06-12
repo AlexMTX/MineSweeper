@@ -1,6 +1,6 @@
 package view;
 
-import controller.Observer;
+import service.Observer;
 import model.Cell;
 
 public interface ViewInterface {
@@ -11,6 +11,8 @@ public interface ViewInterface {
     
     public void registerObserver(Observer o);
     public void notifyObserver();
+    
+    public void initialise();
     
     public void draw(Cell[][] field);
 }

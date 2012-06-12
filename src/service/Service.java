@@ -1,4 +1,4 @@
-package controller;
+package service;
 
 import java.util.Scanner;
 
@@ -9,14 +9,14 @@ import view.ViewWindow;
 
 import model.Model;
 
-public class Controller implements Observer {
+public class Service implements Observer {
     
 //    private int x;
 //    private int y;
 //    private int button;
     
-    private Model m;
-    private ViewAbstract v;
+    private Model model;
+    private ViewAbstract view;
 
 //    public Controller(){
 //        this.v=v;
@@ -40,19 +40,20 @@ public class Controller implements Observer {
         System.out.println("Тип отображения: 1 - Консоль; 2 - Окно");
         int viewType = sc.nextInt();
 
-        m = new Model(height, width, minesNumber);
+        model = new Model(height, width, minesNumber);
 
         switch (viewType) {
         case 1:
-            v = new ViewConsole(height, width, minesNumber);
+            view = new ViewConsole(height, width, minesNumber);
             break;
 
         case 2:
-            v = new ViewWindow(height, width, minesNumber);
+            view = new ViewWindow(height, width, minesNumber);
             break;
         }
         
-        v.registerObserver(this);
+        view.registerObserver(this);
+        view.initialise();
 
         /*
         while (m.isOver() == 0) {
@@ -106,28 +107,30 @@ public class Controller implements Observer {
         
         switch (button) {
         case 1:
-            m.openCell(x, y);
+            model.openCell(x, y);
             break;
         case 2:
             //средняя кнопка
             break;
             
         case 3: 
-            if (m.getField()[x][y].isFlagged()) {
-                m.setQuestion(x, y);
+            if (model.getField()[x][y].isFlagged()) {
+                model.setQuestion(x, y);
+                break;
             }
-            if (m.getField()[x][y].isQuestioned()) {
-                m.setQuestion(x, y);
+            if (model.getField()[x][y].isQuestioned()) {
+                model.setQuestion(x, y);
+                break;
             }
-            if (!m.getField()[x][y].isFlagged()&&!m.getField()[x][y].isQuestioned()) {
-                m.setFlag(x, y);
+            if (!model.getField()[x][y].isFlagged()&&!model.getField()[x][y].isQuestioned()) {
+                model.setFlag(x, y);
+                break;
             }
-            break;
         default:
             break;
         }
         
-        v.draw(m.getField());
+        view.draw(model.getField());
 
     }
 

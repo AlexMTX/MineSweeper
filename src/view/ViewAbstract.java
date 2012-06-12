@@ -1,6 +1,6 @@
 package view;
 
-import controller.Observer;
+import service.Observer;
 
 public abstract class ViewAbstract implements ViewInterface {
 
