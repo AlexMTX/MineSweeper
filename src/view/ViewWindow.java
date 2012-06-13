@@ -17,7 +17,7 @@ import model.Cell;
 
 public class ViewWindow extends ViewAbstract {
 
-    private CellButton[][] cellButtonField = new CellButton[height][width];
+    private JButton[][] cellButtonField = new JButton[height][width];
 
     public ViewWindow(int height, int width, int minesNumber) {
         super(height, width, minesNumber);
@@ -29,7 +29,8 @@ public class ViewWindow extends ViewAbstract {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 Cell modelCell = field[i][j];
-                CellButton viewCell = cellButtonField[i][j];
+//                CellButton viewCell = cellButtonField[i][j];
+                JButton viewCell = cellButtonField[i][j];
                 
                 if (modelCell.isOpened()) {
                     if (modelCell.isMined()) {
@@ -66,25 +67,49 @@ public class ViewWindow extends ViewAbstract {
         frame.setSize(300, 300);
         frame.setLayout(new BorderLayout());
 
+        
+
+        JPanel footer = new JPanel();
+        footer.setLayout(new GridLayout(1,2));
+        frame.add(footer, BorderLayout.SOUTH);
+        
+        JButton newGameButton = createButton("Новая игра");
+        newGameButton.addMouseListener(new ButtonMouseListener(newGameButton));
+        footer.add(newGameButton);
+
+        JButton resGameButton = createButton ("Перезапустить игру");
+        resGameButton.addMouseListener(new ButtonMouseListener(resGameButton));
+        footer.add(resGameButton);
+        
+        JPanel panel = createPanel();
+        frame.add(panel, BorderLayout.CENTER);
+        
         frame.setVisible(true);
 
-        JButton newGameButton = new JButton("Новая игра");
-        // newGameButton.setBackground(Color.WHITE);
-        newGameButton.setRolloverEnabled(false);
-        newGameButton.addMouseListener(new ButtonMouseListener(newGameButton));
-        frame.add(newGameButton, BorderLayout.SOUTH);
+    }
+    
+    private JButton createButton(String title){
+        JButton button = new JButton(title);
+        button.setBackground(Color.WHITE);
+        button.setRolloverEnabled(false);
+        return button;
+    }
 
+    private JPanel createPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(height, width));
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                final CellButton cellButton = new CellButton(i, j);
-                
-//                 cellButton.setBackground(new Color(0,0,255,80));
+                final int xButton = i;
+                final int yButton = j;
+//                final CellButton cellButton = new CellButton(i, j);
+                JButton cellButton = new JButton();
+                 cellButton.setBackground(new Color(0,0,255,80));
                 cellButton.setBackground(Color.BLUE);
-                cellButton.setRolloverEnabled(false);
+//                cellButton.setRolloverEnabled(false);
 
+                //выпилить в абстрактный листнер
                 cellButton.addMouseListener(new MouseListener() {
                     @Override
                     public void mouseReleased(MouseEvent arg0) {
@@ -104,25 +129,18 @@ public class ViewWindow extends ViewAbstract {
 
                     @Override
                     public void mouseClicked(MouseEvent arg0) {
-//                        System.out.println("x: " + cellButton.getX() + " y: "
-//                                + cellButton.getY() + " b: " + arg0.getButton());
-                        // cellButton.setVisible(false);
-                        
-                        x = cellButton.getX();
-                        y = cellButton.getY();
+                        x = xButton;
+                        y = yButton;
                         button = arg0.getButton();
                         notifyObserver();
                     }
                 });
                 
                 cellButtonField[i][j] = cellButton;
-                cellButton.setVisible(true);
-                panel.add(cellButton, BorderLayout.CENTER);
+                panel.add(cellButton);
             }
         }
-
-        frame.add(panel, BorderLayout.CENTER);
-
+        return panel;
     }
 
 }

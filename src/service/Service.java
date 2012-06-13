@@ -2,6 +2,11 @@ package service;
 
 import java.util.Scanner;
 
+import javax.swing.Timer;
+
+
+
+
 import view.ViewAbstract;
 import view.ViewConsole;
 import view.ViewInterface;
@@ -17,6 +22,8 @@ public class Service implements Observer {
     
     private Model model;
     private ViewAbstract view;
+    
+    private Timer timer;
 
 //    public Controller(){
 //        this.v=v;
@@ -53,6 +60,10 @@ public class Service implements Observer {
         }
         
         view.registerObserver(this);
+        
+//        timer = new Timer();
+//        timer.
+        
         view.initialise();
 
         /*
