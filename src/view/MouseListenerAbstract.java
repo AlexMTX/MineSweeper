@@ -3,7 +3,7 @@ package view;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public abstract class MouseListenerAbstract implements MouseListener{
+public abstract class MouseListenerAbstract implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent arg0) {

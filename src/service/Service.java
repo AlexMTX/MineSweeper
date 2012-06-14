@@ -6,33 +6,28 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
-//import model.Model;
 import model.Cell;
-import  model.Const;
+import model.Const;
 import model.Model;
 
 import view.ViewAbstract;
 import view.ViewConsole;
 import view.ViewWindow;
 
-public class Service implements Observer{
-    
+public class Service implements Observer {
+
     private Model model;
     private ViewAbstract view;
 
     @Override
     public void clickModelCell(int x, int y, int button) {
-        
+
         switch (button) {
         case 1:
             openCell(x, y, model);
             break;
-            
-        case 2:
-            //средняя кнопка
-            break;
-            
-        case 3: 
+
+        case 3:
             Cell modelCell = model.getField()[x][y];
             if (modelCell.isFlagged()) {
                 setQuestion(x, y, model);
@@ -42,17 +37,16 @@ public class Service implements Observer{
                 setQuestion(x, y, model);
                 break;
             }
-            if (!modelCell.isFlagged()&&!modelCell.isQuestioned()) {
+            if (!modelCell.isFlagged() && !modelCell.isQuestioned()) {
                 setFlag(x, y, model);
                 break;
             }
-            
+
         default:
             break;
         }
-        
+
         view.draw(model.getField(), model.gameStatus());
-        
     }
 
     @Override
@@ -65,57 +59,54 @@ public class Service implements Observer{
     public void newGame() {
         Scanner sc = new Scanner(System.in);
 
-//      System.out.println("Высота поля:");
-      System.out.println("Field's height:");
-      int height = sc.nextInt();
+        System.out.println("Высота поля:");
+        int height = sc.nextInt();
 
-//      System.out.println("Ширина поля:");
-      System.out.println("Field's width:");
-      int width = sc.nextInt();
+        System.out.println("Ширина поля:");
+        int width = sc.nextInt();
 
-//      System.out.println("Количество мин:");
-      System.out.println("Mines number:");
-      int minesNumber = sc.nextInt();
+        System.out.println("Количество мин:");
+        int minesNumber = sc.nextInt();
 
-//      System.out.println("Тип отображения: 1 - Консоль; 2 - Окно");
-      System.out.println("View in: 1 - Console; 2 - Window");
-      int viewType = sc.nextInt();
+        System.out.println("Тип отображения: 1 - Консоль; 2 - Окно");
+        int viewType = sc.nextInt();
 
-      model = new Model(height, width, minesNumber);
+        model = new Model(height, width, minesNumber);
 
-      switch (viewType) {
-      case 1:
-          view = new ViewConsole(height, width, minesNumber);
-          break;
+        switch (viewType) {
+        case 1:
+            view = new ViewConsole(height, width, minesNumber);
+            break;
 
-      case 2:
-          view = new ViewWindow(height, width, minesNumber);
-          break;
-      }
-      
-      view.registerObserver(this);
-      view.initialise();
+        case 2:
+            view = new ViewWindow(height, width, minesNumber);
+            break;
+        }
+
+        view.registerObserver(this);
+        view.initialise();
     }
 
-    //---------------------------------- Логика работы с моделью -----------------------------------------------
-    
+    // ---------------------------------- Логика работы с моделью -----------------------------------------------
+
     public void generateField(int xOpened, int yOpened, Model model) {
-        
+
         List<Cell> fieldList = new ArrayList<Cell>();
         for (int i = 0; i < model.getMinesNumber(); i++) {
             Cell c = new Cell();
             c.setMined(true);
             fieldList.add(c);
         }
-        
-        for (int i = 0; i < model.getHeight() * model.getWidth() - model.getMinesNumber() - 1; i++) {
+
+        for (int i = 0; i < model.getHeight() * model.getWidth()
+                - model.getMinesNumber() - 1; i++) {
             Cell c = new Cell();
             c.setMined(false);
             fieldList.add(c);
         }
-        
+
         Collections.shuffle(fieldList);
-        
+
         Iterator<Cell> fieldListIterator = fieldList.iterator();
         model.setField(new Cell[model.getHeight()][model.getWidth()]);
         for (int i = 0; i < model.getHeight(); i++) {
@@ -134,7 +125,7 @@ public class Service implements Observer{
         }
         model.setFieldGenerated(true);
     }
-    
+
     public int countMinesAround(Cell c, Model model) {
         int minesNumber = 0;
         int xInitial = c.getX();
@@ -143,8 +134,8 @@ public class Service implements Observer{
             for (int crosswise = -1; crosswise <= 1; crosswise++) {
                 int xNeighbour = xInitial + crosswise;
                 int yNeighbour = yInitial + lengthwise;
-                if (xNeighbour >= 0 && xNeighbour < model.getHeight() && yNeighbour >= 0
-                        && yNeighbour < model.getWidth()) {
+                if (xNeighbour >= 0 && xNeighbour < model.getHeight()
+                        && yNeighbour >= 0 && yNeighbour < model.getWidth()) {
                     Cell neighbourCell = model.getField()[xNeighbour][yNeighbour];
                     if (neighbourCell.isMined() == true) {
                         minesNumber++;
@@ -154,7 +145,7 @@ public class Service implements Observer{
         }
         return minesNumber;
     }
-    
+
     public void recursiveOpen(int x, int y, Model model) {
         Cell c = model.getField()[x][y];
         if (!c.isFlagged()) {
@@ -170,8 +161,8 @@ public class Service implements Observer{
                         for (int crosswise = -1; crosswise <= 1; crosswise++) {
                             int xNeighbour = xInitial + crosswise;
                             int yNeighbour = yInitial + lengthwise;
-                            if (xNeighbour >= 0 && xNeighbour < model.getHeight() && 
-                                    yNeighbour >= 0 && yNeighbour < model.getWidth()) {
+                            if (xNeighbour >= 0 && xNeighbour < model.getHeight()
+                                    && yNeighbour >= 0 && yNeighbour < model.getWidth()) {
                                 if (!model.getField()[xNeighbour][yNeighbour].isOpened())
                                     recursiveOpen(xNeighbour, yNeighbour, model);
                             }
@@ -187,13 +178,13 @@ public class Service implements Observer{
                             closedCellsNumber++;
                     }
                 }
-                if (closedCellsNumber == model.getMinesNumber()){
+                if (closedCellsNumber == model.getMinesNumber()) {
                     model.setIsOver(Const.WIN_GAME);
                 }
             }
         }
     }
-    
+
     public void openCell(int x, int y, Model model) {
         if (model.isFieldGenerated()) {
             recursiveOpen(x, y, model);
@@ -202,19 +193,19 @@ public class Service implements Observer{
             recursiveOpen(x, y, model);
         }
     }
-    
+
     public void explode(Model model) {
-      for (int i = 0; i < model.getHeight(); i++) {
-          for (int j = 0; j < model.getWidth(); j++) {
-              Cell c = model.getField()[i][j];
-              if (c.isMined()) {
-                  c.setOpened(true);
-              }
-          }
-      }
-      model.setIsOver(Const.LOSE_GAME);
-  }
-    
+        for (int i = 0; i < model.getHeight(); i++) {
+            for (int j = 0; j < model.getWidth(); j++) {
+                Cell c = model.getField()[i][j];
+                if (c.isMined()) {
+                    c.setOpened(true);
+                }
+            }
+        }
+        model.setIsOver(Const.LOSE_GAME);
+    }
+
     public void setFlag(int x, int y, Model model) {
         Cell c = model.getField()[x][y];
         if (!c.isOpened()) {
@@ -227,7 +218,7 @@ public class Service implements Observer{
                 c.setQuestioned(false);
         }
     }
-    
+
     public void setQuestion(int x, int y, Model model) {
         Cell c = model.getField()[x][y];
         if (!c.isOpened()) {
@@ -241,7 +232,7 @@ public class Service implements Observer{
             }
         }
     }
-    
+
     public void resField(Model model) {
         model.setIsOver(Const.PLAYING_GAME);
         for (int i = 0; i < model.getHeight(); i++) {
@@ -253,5 +244,5 @@ public class Service implements Observer{
             }
         }
     }
-  //================================== Логика работы с моделью =================================================
+    // ================================== Логика работы с моделью =================================================
 }

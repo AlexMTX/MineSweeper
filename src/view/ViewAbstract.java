@@ -8,7 +8,7 @@ public abstract class ViewAbstract implements ViewInterface {
 
     protected Timer timer;
     protected int time = 0;
-    
+
     protected int width;
     protected int height;
     protected int minesNumber;
@@ -19,7 +19,6 @@ public abstract class ViewAbstract implements ViewInterface {
         this.minesNumber = minesNumber;
     }
 
-    
     protected Observer observer;
 
     @Override
@@ -30,7 +29,7 @@ public abstract class ViewAbstract implements ViewInterface {
     protected int x;
     protected int y;
     protected int button;
-    
+
     @Override
     public void notifyViewCellClicked() {
         observer.clickModelCell(x, y, button);
@@ -45,5 +44,5 @@ public abstract class ViewAbstract implements ViewInterface {
     public void notifyNewGame() {
         observer.newGame();
     }
-    
+
 }

@@ -1,7 +1,5 @@
 package model;
 
-
-
 public class Model {
     private int height;
     private int width;
@@ -9,16 +7,15 @@ public class Model {
 
     private int gameStatus = Const.PLAYING_GAME;
     private boolean fieldGenerated = false;
-    
+
     private Cell[][] field;
 
-    
     public Model(int height, int width, int minesNumber) {
         this.height = height;
         this.width = width;
         this.minesNumber = minesNumber;
     }
-    
+
     public int getHeight() {
         return height;
     }

@@ -18,9 +18,6 @@ import model.Const;
 
 public class ViewWindow extends ViewAbstract {
 
-//    Timer timer;
-//    int time = 0;
-    
     private JButton[][] cellButtonField = new JButton[height][width];
 
     public ViewWindow(int height, int width, int minesNumber) {
@@ -33,7 +30,6 @@ public class ViewWindow extends ViewAbstract {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 Cell modelCell = field[i][j];
-                // CellButton viewCell = cellButtonField[i][j];
                 JButton viewCell = cellButtonField[i][j];
 
                 if (modelCell.isOpened()) {
@@ -74,21 +70,21 @@ public class ViewWindow extends ViewAbstract {
 
             JFrame overFrame = new JFrame();
             overFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            
+
             overFrame.setSize(Const.OVER_FRAME_WIDTH, Const.OVER_FRAME_HEIGHT);
             overFrame.setLayout(new BorderLayout());
-            
+
             JLabel overLable = new JLabel();
-            overFrame.add(overLable,BorderLayout.CENTER);
+            overFrame.add(overLable, BorderLayout.CENTER);
 
             if (gameStatus == Const.LOSE_GAME) {
                 overFrame.setTitle("Game Over");
-                overLable.setText("   Вы проиграли...    Время: "+time);
+                overLable.setText("   Вы проиграли...    Время: " + time);
             }
 
             if (gameStatus == Const.WIN_GAME) {
                 overFrame.setTitle("You win!");
-                overLable.setText("   Вы выиграли!     Время: "+time);
+                overLable.setText("   Вы выиграли!     Время: " + time);
             }
 
             overFrame.setVisible(true);
@@ -115,10 +111,6 @@ public class ViewWindow extends ViewAbstract {
         newGameButton.addMouseListener(new MouseListenerAbstract() {
             @Override
             public void mouseClicked(MouseEvent arg0) {
-//                newGameButton.removeMouseListener(newGameButton.getMouseListeners()[1]);
-//                timer.stop();
-//                timer = null;
-//                time = 0;
                 frame.setVisible(false);
                 notifyNewGame();
             }
@@ -146,12 +138,9 @@ public class ViewWindow extends ViewAbstract {
             public void actionPerformed(ActionEvent arg0) {
                 time++;
                 timerButton.setText("" + time);
-//                System.out.println("window timer "+timer);
             }
         });
-        
-//        System.out.println("window timer inited" + timer);
-        
+
         JPanel panel = createPanel();
         frame.add(panel, BorderLayout.CENTER);
 
@@ -176,7 +165,6 @@ public class ViewWindow extends ViewAbstract {
                 final int xButton = i;
                 final int yButton = j;
                 JButton cellButton = new JButton();
-                // cellButton.setBackground(new Color(0, 0, 255, 80));
                 cellButton.setBackground(Color.BLUE);
 
                 cellButton.addMouseListener(new MouseListenerAbstract() {
@@ -188,7 +176,7 @@ public class ViewWindow extends ViewAbstract {
                         notifyViewCellClicked();
                     }
                 });
-                
+
                 cellButtonField[i][j] = cellButton;
                 panel.add(cellButton);
             }
