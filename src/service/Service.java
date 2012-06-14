@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 //import model.Model;
 import model.Cell;
+import  model.Const;
 import model.Model;
 
 import view.ViewAbstract;
@@ -20,12 +21,13 @@ public class Service implements Observer{
     private ViewAbstract view;
 
     @Override
-    public void updateModel(int x, int y, int button) {
+    public void clickModelCell(int x, int y, int button) {
         
         switch (button) {
         case 1:
             openCell(x, y, model);
             break;
+            
         case 2:
             //средняя кнопка
             break;
@@ -57,7 +59,6 @@ public class Service implements Observer{
     public void resGame() {
         resField(model);
         view.initialise();
-        
     }
 
     @Override
@@ -96,23 +97,27 @@ public class Service implements Observer{
       view.initialise();
     }
 
-    //----------------------------------Логика работы с моделью-----------------------------------------------
+    //---------------------------------- Логика работы с моделью -----------------------------------------------
     
     public void generateField(int xOpened, int yOpened, Model model) {
+        
         List<Cell> fieldList = new ArrayList<Cell>();
         for (int i = 0; i < model.getMinesNumber(); i++) {
             Cell c = new Cell();
             c.setMined(true);
             fieldList.add(c);
         }
+        
         for (int i = 0; i < model.getHeight() * model.getWidth() - model.getMinesNumber() - 1; i++) {
             Cell c = new Cell();
             c.setMined(false);
             fieldList.add(c);
         }
+        
         Collections.shuffle(fieldList);
+        
         Iterator<Cell> fieldListIterator = fieldList.iterator();
-        model.setField(new Cell[model.getHeight()][model.getHeight()]);
+        model.setField(new Cell[model.getHeight()][model.getWidth()]);
         for (int i = 0; i < model.getHeight(); i++) {
             for (int j = 0; j < model.getWidth(); j++) {
                 Cell c;
@@ -165,7 +170,8 @@ public class Service implements Observer{
                         for (int crosswise = -1; crosswise <= 1; crosswise++) {
                             int xNeighbour = xInitial + crosswise;
                             int yNeighbour = yInitial + lengthwise;
-                            if (xNeighbour >= 0 && xNeighbour < model.getHeight() && yNeighbour >= 0 && yNeighbour < model.getWidth()) {
+                            if (xNeighbour >= 0 && xNeighbour < model.getHeight() && 
+                                    yNeighbour >= 0 && yNeighbour < model.getWidth()) {
                                 if (!model.getField()[xNeighbour][yNeighbour].isOpened())
                                     recursiveOpen(xNeighbour, yNeighbour, model);
                             }
@@ -173,7 +179,7 @@ public class Service implements Observer{
                     }
                 }
             }
-            if (model.isOver() == 0) {
+            if (model.isOver() == Const.PLAYING_GAME) {
                 int closedCellsNumber = 0;
                 for (int i = 0; i < model.getHeight(); i++) {
                     for (int j = 0; j < model.getWidth(); j++) {
@@ -182,7 +188,7 @@ public class Service implements Observer{
                     }
                 }
                 if (closedCellsNumber == model.getMinesNumber()){
-                    model.setIsOver(1);
+                    model.setIsOver(Const.WIN_GAME);
                 }
             }
         }
@@ -206,7 +212,7 @@ public class Service implements Observer{
               }
           }
       }
-      model.setIsOver(-1);
+      model.setIsOver(Const.LOSE_GAME);
   }
     
     public void setFlag(int x, int y, Model model) {
@@ -237,7 +243,7 @@ public class Service implements Observer{
     }
     
     public void resField(Model model) {
-        model.setIsOver(0);
+        model.setIsOver(Const.PLAYING_GAME);
         for (int i = 0; i < model.getHeight(); i++) {
             for (int j = 0; j < model.getWidth(); j++) {
                 Cell c = model.getField()[i][j];
@@ -247,5 +253,5 @@ public class Service implements Observer{
             }
         }
     }
-  //==================================Логика работы с моделью=================================================
+  //================================== Логика работы с моделью =================================================
 }

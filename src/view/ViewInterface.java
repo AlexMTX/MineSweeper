@@ -10,10 +10,10 @@ public interface ViewInterface {
 //    public void setMinesNumber(int minesNumber);
     
     public void registerObserver(Observer o);
-    public void notifyObserver();
+    public void notifyViewCellClicked();
     
-    public void resGame();
-    public void newGame();
+    public void notifyResGame();
+    public void notifyNewGame();
     
     public void initialise();
     

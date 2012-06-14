@@ -1,11 +1,13 @@
 package model;
 
+
+
 public class Model {
     private int height;
     private int width;
     private int minesNumber;
 
-    private int isOver = 0;
+    private int isOver = Const.PLAYING_GAME;
     private boolean fieldGenerated = false;
     
     private Cell[][] field;

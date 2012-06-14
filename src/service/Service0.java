@@ -115,7 +115,7 @@ public class Service0 implements Observer {
     //View update'ид последнюю нажатую кнопку, координаты.
     //запускает обработку модели?
     @Override
-    public void updateModel(int x, int y, int button) {
+    public void clickModelCell(int x, int y, int button) {
 //        this.x = x;
 //        this.y = y;
 //        this.button = button;

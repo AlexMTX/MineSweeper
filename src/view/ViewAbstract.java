@@ -6,8 +6,8 @@ import service.Observer;
 
 public abstract class ViewAbstract implements ViewInterface {
 
-//    protected Timer timer;
-//    protected int time = 0;
+    protected Timer timer;
+    protected int time = 0;
     
     protected int width;
     protected int height;
@@ -32,41 +32,18 @@ public abstract class ViewAbstract implements ViewInterface {
     protected int button;
     
     @Override
-    public void notifyObserver() {
-        observer.updateModel(x, y, button);
+    public void notifyViewCellClicked() {
+        observer.clickModelCell(x, y, button);
     }
 
     @Override
-    public void resGame() {
+    public void notifyResGame() {
         observer.resGame();
     }
 
     @Override
-    public void newGame() {
+    public void notifyNewGame() {
         observer.newGame();
-        
     }
-
     
-    
-    
-    
-    // @Override
-    // public void setWidth(int width) {
-    // this.width=width;
-    //
-    // }
-    //
-    // @Override
-    // public void setHeight(int height) {
-    // this.height = height;
-    //
-    // }
-    //
-    // @Override
-    // public void setMinesNumber(int minesNumber) {
-    // this.minesNumber = minesNumber;
-    //
-    // }
-
 }
