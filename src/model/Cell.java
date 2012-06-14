@@ -2,13 +2,13 @@ package model;
 
 public class Cell {
     
-    private int x;
-    private int y;
-    private boolean isMined;
-    private int minesAround;
-    private boolean isOpened;
-    private boolean isFlagged;
-    private boolean isQuestioned;
+    private int x = -1;
+    private int y = -1;
+    private boolean isMined = false;
+    private int minesAround = -1;
+    private boolean isOpened = false;
+    private boolean isFlagged = false;
+    private boolean isQuestioned = false;
     
     
     public int getX() {

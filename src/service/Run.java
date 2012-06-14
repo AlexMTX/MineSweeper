@@ -39,7 +39,7 @@ public class Run {
 //        Service service = new Service();
 //        service.newGame();
         
-        Service2 service = new Service2();
+        Service service = new Service();
         service.newGame();
         //---------------------------------------
         
