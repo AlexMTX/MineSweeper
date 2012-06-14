@@ -94,7 +94,7 @@ public class ViewConsole extends ViewAbstract {
 
         this.gameStatus = gameStatus;
 
-        System.out.println("Time: " + time);
+        System.out.println("Время: " + time);
 
         System.out.print("x\\y| ");
         for (int i = 0; i < width; i++) {
@@ -116,8 +116,7 @@ public class ViewConsole extends ViewAbstract {
                         if (field[i][j].getMinesAround() == 0) {
                             System.out.print("  ");
                         } else {
-                            System.out
-                                    .print(field[i][j].getMinesAround() + " ");
+                            System.out.print(field[i][j].getMinesAround() + " ");
                         }
                     }
                 } else {
