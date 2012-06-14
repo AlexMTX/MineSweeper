@@ -17,8 +17,8 @@ public class ViewConsole extends ViewAbstract {
     
     int isOver = 0;
     
-//    Timer timer;
-//    int time = 0;
+    Timer timer;
+    int time = 0;
     
     @Override
     public void initialise() {

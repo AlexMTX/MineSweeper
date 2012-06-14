@@ -6,8 +6,8 @@ import service.Observer;
 
 public abstract class ViewAbstract implements ViewInterface {
 
-    protected Timer timer;
-    protected int time = 0;
+//    protected Timer timer;
+//    protected int time = 0;
     
     protected int width;
     protected int height;

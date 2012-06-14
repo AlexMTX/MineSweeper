@@ -19,8 +19,8 @@ import model.Cell;
 
 public class ViewWindow extends ViewAbstract {
 
-//    Timer timer;
-//    int time = 0;
+    Timer timer;
+    int time = 0;
     
     private JButton[][] cellButtonField = new JButton[height][width];
 

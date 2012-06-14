@@ -36,7 +36,10 @@ public class Run {
         
         //контроллер
 //        ViewAbstract v=null;
-        Service service = new Service();
+//        Service service = new Service();
+//        service.newGame();
+        
+        Service2 service = new Service2();
         service.newGame();
         //---------------------------------------
         

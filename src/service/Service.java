@@ -146,7 +146,7 @@ public class Service implements Observer {
             break;
         }
         
-        view.draw(model.getField(), model.isOver());
+//        view.draw(model.getField(), model.isOver());
 
     }
 
