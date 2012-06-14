@@ -1,9 +1,14 @@
 package view;
 
+import javax.swing.Timer;
+
 import service.Observer;
 
 public abstract class ViewAbstract implements ViewInterface {
 
+    protected Timer timer;
+    protected int time = 0;
+    
     protected int width;
     protected int height;
     protected int minesNumber;
@@ -28,7 +33,17 @@ public abstract class ViewAbstract implements ViewInterface {
     
     @Override
     public void notifyObserver() {
-        observer.update(x, y, button);
+        observer.updateModel(x, y, button);
+    }
+
+    @Override
+    public void resGame() {
+        observer.resGame();
+    }
+
+    @Override
+    public void newGame() {
+        observer.newGame();
         
     }
 

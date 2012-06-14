@@ -12,7 +12,10 @@ public interface ViewInterface {
     public void registerObserver(Observer o);
     public void notifyObserver();
     
+    public void resGame();
+    public void newGame();
+    
     public void initialise();
     
-    public void draw(Cell[][] field);
+    public void draw(Cell[][] field, int isOver);
 }

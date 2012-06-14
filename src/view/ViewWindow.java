@@ -11,12 +11,17 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import model.Cell;
 
 public class ViewWindow extends ViewAbstract {
 
+//    Timer timer;
+//    int time = 0;
+    
     private JButton[][] cellButtonField = new JButton[height][width];
 
     public ViewWindow(int height, int width, int minesNumber) {
@@ -24,23 +29,23 @@ public class ViewWindow extends ViewAbstract {
     }
 
     @Override
-    public void draw(Cell[][] field) {
+    public void draw(Cell[][] field, int isOver) {
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 Cell modelCell = field[i][j];
-//                CellButton viewCell = cellButtonField[i][j];
+                // CellButton viewCell = cellButtonField[i][j];
                 JButton viewCell = cellButtonField[i][j];
-                
+
                 if (modelCell.isOpened()) {
+                    viewCell.setEnabled(false);
                     if (modelCell.isMined()) {
                         viewCell.setBackground(Color.RED);
                         viewCell.setText("*");
                     } else {
                         viewCell.setBackground(Color.WHITE);
                         if (modelCell.getMinesAround() != 0) {
-                            viewCell.setText(""
-                                    + field[i][j].getMinesAround());
+                            viewCell.setText("" + field[i][j].getMinesAround());
                         }
                     }
                 } else {
@@ -58,37 +63,110 @@ public class ViewWindow extends ViewAbstract {
             }
         }
 
+        if (isOver != 0) {
+            timer.stop();
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    JButton viewCell = cellButtonField[i][j];
+                    viewCell.setEnabled(false);
+                    // при перезапуске этой же игры придется снова всем
+                    // listner'ы приделывать.
+                    // мб можно как-то приостановить и потом этот же снова
+                    // активировать.
+                    viewCell.removeMouseListener(viewCell.getMouseListeners()[1]);
+                }
+            }
+
+            JFrame overFrame = new JFrame();
+            overFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            overFrame.setSize(200, 100);
+            overFrame.setLayout(new BorderLayout());
+            
+            JLabel overLable = new JLabel();
+            overFrame.add(overLable,BorderLayout.CENTER);
+
+            if (isOver == -1) {
+                overFrame.setTitle("Game Over");
+                overLable.setText("   Вы проиграли...    Время: "+time);
+            }
+
+            if (isOver == 1) {
+                overFrame.setTitle("You win!");
+                overLable.setText("   Вы выиграли!     Время: "+time);
+            }
+
+            overFrame.setVisible(true);
+        }
+
     }
 
     @Override
     public void initialise() {
-        JFrame frame = new JFrame("Сапер");
+        final JFrame frame = new JFrame("Сапер");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 300);
+
+        int oneCellSize = 45; // в константы
+        int windowWidth = width * oneCellSize;
+        int windowHeight = height * oneCellSize;
+        frame.setSize(windowWidth > 300 ? windowWidth : 300,
+                windowHeight > 300 ? windowHeight : 300);
+        // frame.setSize(300, 300);
         frame.setLayout(new BorderLayout());
 
-        
-
         JPanel footer = new JPanel();
-        footer.setLayout(new GridLayout(1,2));
+        footer.setLayout(new GridLayout(1, 3));
         frame.add(footer, BorderLayout.SOUTH);
-        
+
         JButton newGameButton = createButton("Новая игра");
-        newGameButton.addMouseListener(new ButtonMouseListener(newGameButton));
+        newGameButton.addMouseListener(new MouseListenerAbstract() {
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+//                newGameButton.removeMouseListener(newGameButton.getMouseListeners()[1]);
+//                timer.stop();
+//                timer = null;
+//                time = 0;
+                frame.setVisible(false);
+                newGame();
+            }
+        });
         footer.add(newGameButton);
 
-        JButton resGameButton = createButton ("Перезапустить игру");
-        resGameButton.addMouseListener(new ButtonMouseListener(resGameButton));
+        JButton resGameButton = createButton("Перезапустить игру");
+        resGameButton.addMouseListener(new MouseListenerAbstract() {
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+                timer.stop();
+                time = 0;
+                frame.setVisible(false);
+                resGame();
+            }
+        });
         footer.add(resGameButton);
+
+        final JButton timerButton = new JButton("0");
+        timerButton.setBackground(Color.WHITE);
+        timerButton.setEnabled(false);
+        footer.add(timerButton);
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                time++;
+                timerButton.setText("" + time);
+//                System.out.println("window timer "+timer);
+            }
+        });
+        
+//        System.out.println("window timer inited" + timer);
         
         JPanel panel = createPanel();
         frame.add(panel, BorderLayout.CENTER);
-        
+
+        timer.start();
         frame.setVisible(true);
 
     }
-    
-    private JButton createButton(String title){
+
+    private JButton createButton(String title) {
         JButton button = new JButton(title);
         button.setBackground(Color.WHITE);
         button.setRolloverEnabled(false);
@@ -103,13 +181,23 @@ public class ViewWindow extends ViewAbstract {
             for (int j = 0; j < width; j++) {
                 final int xButton = i;
                 final int yButton = j;
-//                final CellButton cellButton = new CellButton(i, j);
+                // final CellButton cellButton = new CellButton(i, j);
                 JButton cellButton = new JButton();
-                 cellButton.setBackground(new Color(0,0,255,80));
+                // cellButton.setBackground(new Color(0, 0, 255, 80));
                 cellButton.setBackground(Color.BLUE);
-//                cellButton.setRolloverEnabled(false);
+                // cellButton.setRolloverEnabled(false);
 
-                //выпилить в абстрактный листнер
+                cellButton.addMouseListener(new MouseListenerAbstract() {
+                    @Override
+                    public void mouseClicked(MouseEvent arg0) {
+                        x = xButton;
+                        y = yButton;
+                        button = arg0.getButton();
+                        notifyObserver();
+                    }
+                });
+                /*
+                // выпилить в абстрактный листнер
                 cellButton.addMouseListener(new MouseListener() {
                     @Override
                     public void mouseReleased(MouseEvent arg0) {
@@ -129,13 +217,10 @@ public class ViewWindow extends ViewAbstract {
 
                     @Override
                     public void mouseClicked(MouseEvent arg0) {
-                        x = xButton;
-                        y = yButton;
-                        button = arg0.getButton();
-                        notifyObserver();
+                        
                     }
                 });
-                
+                */
                 cellButtonField[i][j] = cellButton;
                 panel.add(cellButton);
             }

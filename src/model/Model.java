@@ -8,9 +8,9 @@ import java.util.List;
 //import view.ViewInterface;
 
 public class Model {
-    private final int height;
-    private final int width;
-    private final int minesNumber;
+    private int height;
+    private int width;
+    private int minesNumber;
 
     private int isOver = 0;
     private boolean fieldGenerated = false;
@@ -19,16 +19,16 @@ public class Model {
 
     private Cell[][] field;
 
-    public Model(int height, int width, int minesNumber) {
-        this.height = height;
-        this.width = width;
-        this.minesNumber = minesNumber;
-
-    }
+//    public Model(int height, int width, int minesNumber) {
+//        this.height = height;
+//        this.width = width;
+//        this.minesNumber = minesNumber;
+//
+//    }
 
     /* генерирует минное поле. клетка, на которую нажали всегда будет не миной */
     // private
-    public void generateField(int xWhereOpened, int yWhereOpened) {
+    private void generateField(int xWhereOpened, int yWhereOpened) {
 
         List<Cell> fieldList = new ArrayList<Cell>(); // для шаффла
 
@@ -68,13 +68,14 @@ public class Model {
             }
         }
 
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                Cell c = field[i][j];
-                if (!c.isMined())
-                    c.setMinesAround(countMinesAround(c));
-            }
-        }
+        //расчет мин вокруг для всех ячеек. Перенесено в recursiveOpen для расчета во время нажатия.
+//        for (int i = 0; i < height; i++) {
+//            for (int j = 0; j < width; j++) {
+//                Cell c = field[i][j];
+//                if (!c.isMined())
+//                    c.setMinesAround(countMinesAround(c));
+//            }
+//        }
 
         fieldGenerated = true;
 
@@ -111,6 +112,10 @@ public class Model {
                 explode();
             } else {
                 c.setOpened(true);
+                
+                //расчет мин вокруг только во время нажатия
+                c.setMinesAround(countMinesAround(c));
+                
                 if (c.getMinesAround() == 0) {
 
                     // ------------мб можно выпилить
@@ -135,17 +140,20 @@ public class Model {
 
             // проверка на конец игры. если количество закрытых = количеству
             // мин
-            int closedCellsNumber = 0;
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    if (field[i][j].isOpened() == false)
-                        closedCellsNumber++;
+            if (isOver == 0) {
+                int closedCellsNumber = 0;
+                for (int i = 0; i < height; i++) {
+                    for (int j = 0; j < width; j++) {
+                        if (field[i][j].isOpened() == false)
+                            closedCellsNumber++;
+                    }
+                }
+                if (closedCellsNumber == minesNumber){
+                    isOver = 1;
+//                    System.out.println("You win!");
                 }
             }
-            if (closedCellsNumber == minesNumber){
-                isOver = 1;
-                System.out.println("You win!");
-            }
+            
             // ----------------------------------------------------------------
 
         }
@@ -166,7 +174,7 @@ public class Model {
     }
 
     private void explode() {
-        System.out.println("exploded");
+//        System.out.println("exploded");
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -210,7 +218,6 @@ public class Model {
 //        view.draw(field);
     }
 
-    // надо ли вообще?
     public int isOver() {
         return isOver;
     }
@@ -232,7 +239,6 @@ public class Model {
                         System.out.print("# ");
                     }
 
-
                 }
             }
             System.out.println();
@@ -246,6 +252,26 @@ public class Model {
 
     public Cell[][] getField() {
         return field;
+    }
+
+    public void resField() {
+        isOver=0;
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                Cell c = field[i][j];
+                c.setFlagged(false);
+                c.setQuestioned(false);
+                c.setOpened(false);
+            }
+        }
+    }
+
+    public void setNewField(int height, int width, int minesNumber) {
+        this.height = height;
+        this.width = width;
+        this.minesNumber = minesNumber;
+        fieldGenerated = false;
+        isOver=0;
     }
 
 }

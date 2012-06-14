@@ -20,10 +20,8 @@ public class Service implements Observer {
 //    private int y;
 //    private int button;
     
-    private Model model;
+    private Model model = new Model();
     private ViewAbstract view;
-    
-    private Timer timer;
 
 //    public Controller(){
 //        this.v=v;
@@ -32,22 +30,28 @@ public class Service implements Observer {
 //    
 //    private register(){
     
+    @Override
     public void newGame() {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Высота поля:");
+//        System.out.println("Высота поля:");
+        System.out.println("Field's height:");
         int height = sc.nextInt();
 
-        System.out.println("Ширина поля:");
+//        System.out.println("Ширина поля:");
+        System.out.println("Field's width:");
         int width = sc.nextInt();
 
-        System.out.println("Количество мин:");
+//        System.out.println("Количество мин:");
+        System.out.println("Mines number:");
         int minesNumber = sc.nextInt();
 
-        System.out.println("Тип отображения: 1 - Консоль; 2 - Окно");
+//        System.out.println("Тип отображения: 1 - Консоль; 2 - Окно");
+        System.out.println("View in: 1 - Console; 2 - Window");
         int viewType = sc.nextInt();
 
-        model = new Model(height, width, minesNumber);
+//        model = new Model(height, width, minesNumber);
+        model.setNewField(height, width, minesNumber);
 
         switch (viewType) {
         case 1:
@@ -111,10 +115,11 @@ public class Service implements Observer {
     //View update'ид последнюю нажатую кнопку, координаты.
     //запускает обработку модели?
     @Override
-    public void update(int x, int y, int button) {
+    public void updateModel(int x, int y, int button) {
 //        this.x = x;
 //        this.y = y;
 //        this.button = button;
+        
         
         switch (button) {
         case 1:
@@ -141,8 +146,16 @@ public class Service implements Observer {
             break;
         }
         
-        view.draw(model.getField());
+        view.draw(model.getField(), model.isOver());
 
     }
+
+    @Override
+    public void resGame() {
+        model.resField();
+        view.initialise();
+    }
+    
+    
 
 }
