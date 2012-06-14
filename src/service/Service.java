@@ -179,7 +179,7 @@ public class Service implements Observer {
                     }
                 }
                 if (closedCellsNumber == model.getMinesNumber()) {
-                    model.setIsOver(Const.WIN_GAME);
+                    model.setGameStatus(Const.WIN_GAME);
                 }
             }
         }
@@ -203,7 +203,7 @@ public class Service implements Observer {
                 }
             }
         }
-        model.setIsOver(Const.LOSE_GAME);
+        model.setGameStatus(Const.LOSE_GAME);
     }
 
     public void setFlag(int x, int y, Model model) {
@@ -234,7 +234,7 @@ public class Service implements Observer {
     }
 
     public void resField(Model model) {
-        model.setIsOver(Const.PLAYING_GAME);
+        model.setGameStatus(Const.PLAYING_GAME);
         for (int i = 0; i < model.getHeight(); i++) {
             for (int j = 0; j < model.getWidth(); j++) {
                 Cell c = model.getField()[i][j];

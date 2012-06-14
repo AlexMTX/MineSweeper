@@ -32,7 +32,7 @@ public class Model {
         return gameStatus;
     }
 
-    public void setIsOver(int gameStatus) {
+    public void setGameStatus(int gameStatus) {
         this.gameStatus = gameStatus;
     }
 
