@@ -1,7 +1,7 @@
 package model;
 
 public class Const {
-    //isOver окончена ли игра
+    //gameStatus окончена ли игра
     public final static int LOSE_GAME = -1;
     public final static int PLAYING_GAME = 0;
     public final static int WIN_GAME = 1;

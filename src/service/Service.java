@@ -51,7 +51,7 @@ public class Service implements Observer{
             break;
         }
         
-        view.draw(model.getField(), model.isOver());
+        view.draw(model.getField(), model.gameStatus());
         
     }
 
@@ -179,7 +179,7 @@ public class Service implements Observer{
                     }
                 }
             }
-            if (model.isOver() == Const.PLAYING_GAME) {
+            if (model.gameStatus() == Const.PLAYING_GAME) {
                 int closedCellsNumber = 0;
                 for (int i = 0; i < model.getHeight(); i++) {
                     for (int j = 0; j < model.getWidth(); j++) {

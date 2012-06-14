@@ -7,7 +7,7 @@ public class Model {
     private int width;
     private int minesNumber;
 
-    private int isOver = Const.PLAYING_GAME;
+    private int gameStatus = Const.PLAYING_GAME;
     private boolean fieldGenerated = false;
     
     private Cell[][] field;
@@ -31,12 +31,12 @@ public class Model {
         return minesNumber;
     }
 
-    public int isOver() {
-        return isOver;
+    public int gameStatus() {
+        return gameStatus;
     }
 
-    public void setIsOver(int isOver) {
-        this.isOver = isOver;
+    public void setIsOver(int gameStatus) {
+        this.gameStatus = gameStatus;
     }
 
     public boolean isFieldGenerated() {

@@ -16,7 +16,7 @@ public class TestRecursiveOpen {
     /* Открыть заминированню ячейку.
      * В поле размером 2х2 в первую строку положим 2 мины, нижние 2 ячейки пусты.
      * Откроем мину в ячейке [0][0].
-     * При открытии мины состояние игры (isOver) в модели должно стать "проигранным".
+     * При открытии мины состояние игры (gameStatus) в модели должно стать "проигранным".
      * Обе мины должны стать открытыми (isOpened) для отображения игроку всех ячеек 
      * с минами -  тест explode(Model model).
      * Две нижние мины остаются закрытыми.
@@ -48,7 +48,7 @@ public class TestRecursiveOpen {
         service = new Service();
         service.recursiveOpen(0, 0, model);
         
-        Assert.assertEquals(Const.LOSE_GAME, model.isOver());
+        Assert.assertEquals(Const.LOSE_GAME, model.gameStatus());
         Assert.assertEquals(true, model.getField()[0][0].isOpened());
         Assert.assertEquals(true, model.getField()[0][1].isOpened());
         Assert.assertEquals(false, model.getField()[1][0].isOpened());

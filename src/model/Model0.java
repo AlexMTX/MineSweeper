@@ -12,7 +12,7 @@ public class Model0 {
     private int width;
     private int minesNumber;
 
-    private int isOver = 0;
+    private int gameStatus = 0;
     private boolean fieldGenerated = false;
     
 //    private ViewInterface view;
@@ -140,7 +140,7 @@ public class Model0 {
 
             // проверка на конец игры. если количество закрытых = количеству
             // мин
-            if (isOver == 0) {
+            if (gameStatus == 0) {
                 int closedCellsNumber = 0;
                 for (int i = 0; i < height; i++) {
                     for (int j = 0; j < width; j++) {
@@ -149,7 +149,7 @@ public class Model0 {
                     }
                 }
                 if (closedCellsNumber == minesNumber){
-                    isOver = 1;
+                    gameStatus = 1;
 //                    System.out.println("You win!");
                 }
             }
@@ -184,7 +184,7 @@ public class Model0 {
             }
         }
 
-        isOver = -1;
+        gameStatus = -1;
 //        view.draw(field);
 
     }
@@ -218,8 +218,8 @@ public class Model0 {
 //        view.draw(field);
     }
 
-    public int isOver() {
-        return isOver;
+    public int gameStatus() {
+        return gameStatus;
     }
 
     // убрать, когда появится полноценный контроллер
@@ -255,7 +255,7 @@ public class Model0 {
     }
 
     public void resField() {
-        isOver=0;
+        gameStatus=0;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 Cell c = field[i][j];
@@ -271,7 +271,7 @@ public class Model0 {
         this.width = width;
         this.minesNumber = minesNumber;
         fieldGenerated = false;
-        isOver=0;
+        gameStatus=0;
     }
 
 }

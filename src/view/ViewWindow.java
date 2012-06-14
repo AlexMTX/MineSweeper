@@ -28,7 +28,7 @@ public class ViewWindow extends ViewAbstract {
     }
 
     @Override
-    public void draw(Cell[][] field, int isOver) {
+    public void draw(Cell[][] field, int gameStatus) {
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -62,7 +62,7 @@ public class ViewWindow extends ViewAbstract {
             }
         }
 
-        if (isOver != Const.PLAYING_GAME) {
+        if (gameStatus != Const.PLAYING_GAME) {
             timer.stop();
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
@@ -81,12 +81,12 @@ public class ViewWindow extends ViewAbstract {
             JLabel overLable = new JLabel();
             overFrame.add(overLable,BorderLayout.CENTER);
 
-            if (isOver == Const.LOSE_GAME) {
+            if (gameStatus == Const.LOSE_GAME) {
                 overFrame.setTitle("Game Over");
                 overLable.setText("   Вы проиграли...    Время: "+time);
             }
 
-            if (isOver == Const.WIN_GAME) {
+            if (gameStatus == Const.WIN_GAME) {
                 overFrame.setTitle("You win!");
                 overLable.setText("   Вы выиграли!     Время: "+time);
             }

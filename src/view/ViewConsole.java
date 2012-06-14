@@ -15,7 +15,7 @@ public class ViewConsole extends ViewAbstract {
         super(height, width, minesNumber);
     }
     
-    int isOver = Const.PLAYING_GAME;
+    int gameStatus = Const.PLAYING_GAME;
     
 //    Timer timer;
 //    int time = 0;
@@ -38,7 +38,7 @@ public class ViewConsole extends ViewAbstract {
 //        System.out.println("console timer inited " + timer);
         timer.start();
         
-        while (continiueLoop && isOver == Const.PLAYING_GAME) {
+        while (continiueLoop && gameStatus == Const.PLAYING_GAME) {
 //            System.out.println("1 - Открыть; 2 - Пометить; 3 - Новая игра; 4 - Перезапустить игру:");
 //            System.out.println("1 - Open; 2 - Mark; 3 - New game; 4 - Restart game:");
             
@@ -74,11 +74,11 @@ public class ViewConsole extends ViewAbstract {
         
         timer.stop();
         
-        if (isOver == Const.LOSE_GAME) {
+        if (gameStatus == Const.LOSE_GAME) {
 //            System.out.println("Вы проиграли!");
             System.out.println("You lose!");
         }
-        if (isOver == Const.WIN_GAME){
+        if (gameStatus == Const.WIN_GAME){
 //            System.out.println("Вы выиграли!");
             System.out.println("You win!");
         }
@@ -93,7 +93,7 @@ public class ViewConsole extends ViewAbstract {
             break;
             
         case 2:
-            isOver = Const.PLAYING_GAME;
+            gameStatus = Const.PLAYING_GAME;
             time = 0;
             notifyResGame();
             break;
@@ -105,9 +105,9 @@ public class ViewConsole extends ViewAbstract {
 
     
     @Override
-    public void draw(Cell[][] field, int isOver) {
+    public void draw(Cell[][] field, int gameStatus) {
 
-        this.isOver = isOver;
+        this.gameStatus = gameStatus;
         
         System.out.println("Time: "+time);
         

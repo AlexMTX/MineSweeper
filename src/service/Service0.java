@@ -71,7 +71,7 @@ public class Service0 implements Observer {
         view.initialise();
 
         /*
-        while (m.isOver() == 0) {
+        while (m.gameStatus() == 0) {
             System.out
                     .println("1 - Открыть; 2 - Поставить флаг; 3 - Поставить вопрос");
             int x;
@@ -146,7 +146,7 @@ public class Service0 implements Observer {
             break;
         }
         
-//        view.draw(model.getField(), model.isOver());
+//        view.draw(model.getField(), model.gameStatus());
 
     }
 

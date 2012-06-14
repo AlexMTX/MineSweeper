@@ -17,5 +17,5 @@ public interface ViewInterface {
     
     public void initialise();
     
-    public void draw(Cell[][] field, int isOver);
+    public void draw(Cell[][] field, int gameStatus);
 }
